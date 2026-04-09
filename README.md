@@ -9,17 +9,10 @@
 To install the package from the source, clone the repository and install it in editable mode:
 
 ```bash
-# Clone the repository
-git clone [https://github.com/artefactory/BERT-as-a-Judge.git](https://github.com/artefactory/BERT-as-a-Judge.git)
-
-# Navigate into the project directory
+git clone https://github.com/artefactory/BERT-as-a-Judge.git
 cd BERT-as-a-Judge
-
-# Install the package in editable mode
 pip install -e .
 ```
-
-### Required dependencies
 
 The project relies on the following Python packages at runtime:
 
