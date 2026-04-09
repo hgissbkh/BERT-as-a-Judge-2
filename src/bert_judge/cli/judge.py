@@ -25,7 +25,7 @@ def make_judge(args):
 		require_model_path(args)
 		return LLMJudge(
 			model_path=args.model_path,
-			inference_backend=args.inference_backend,
+			backend=args.backend,
 			trust_remote_code=args.trust_remote_code,
 			dtype=args.dtype,
 			temperature=args.temperature,
@@ -141,7 +141,7 @@ def build_parser():
 
 	parser.add_argument("--batch_size", type=int, default=1, help="Used by BERTJudge.")
 
-	parser.add_argument("--inference_backend", choices=["hf", "vllm"], default="vllm", help="Used by LLMJudge.")
+	parser.add_argument("--backend", choices=["hf", "vllm"], default="vllm", help="Used by LLMJudge.")
 	parser.add_argument("--instruction_type", choices=["strict", "soft"], default="soft", help="Used by LLMJudge.")
 	parser.add_argument("--temperature", type=float, default=0.0, help="Used by LLMJudge.")
 	parser.add_argument("--top_p", type=float, default=1.0, help="Used by LLMJudge.")

@@ -59,7 +59,7 @@ def build_parser():
 	)
 	parser.add_argument("output_dir", help="Base output directory.")
 
-	parser.add_argument("--backend", choices=["hf", "vllm"], default="hf")
+	parser.add_argument("--backend", choices=["hf", "vllm"], default="vllm")
 	parser.add_argument("--trust_remote_code", action="store_true")
 	parser.add_argument("--dtype", default="bfloat16")
 

@@ -10,7 +10,7 @@ class LLMJudge:
     def __init__(
         self,
         model_path,
-        inference_backend = "vllm",
+        backend = "vllm",
         trust_remote_code=False,
         dtype="bfloat16",
         temperature=0,
@@ -40,7 +40,7 @@ class LLMJudge:
         self.strict_instruction = "Respond only with exactly one of the following strings (add no additional text)"
         self.soft_instruction = "Conclude your response with exactly one of the following"
         
-        if inference_backend == "vllm":
+        if backend == "vllm":
             self.generator = vLLMGenerator(
                 model_path=model_path,
                 trust_remote_code=trust_remote_code,
@@ -53,7 +53,7 @@ class LLMJudge:
                 presence_penalty=presence_penalty,
                 max_tokens=max_tokens,
             )
-        elif inference_backend == "hf":
+        elif backend == "hf":
             self.generator = HFGenerator(
                 model_path=model_path,
                 trust_remote_code=trust_remote_code,
@@ -68,7 +68,7 @@ class LLMJudge:
             )
         else:
             raise ValueError(
-                f"Unsupported inference_backend: {inference_backend}. Expected 'vllm' or 'hf'."
+                f"Unsupported inference backend: {backend}. Expected 'vllm' or 'hf'."
             )
             
     def predict(

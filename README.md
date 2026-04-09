@@ -30,10 +30,10 @@ Use `generate.py` to run a model on one or more tasks and save the generated can
 **Example:**
 
 ```zsh
-python -m bert_judge.cli.generate \
-    --model_path meta-llama/Llama-3.2-1B-Instruct \
-    --tasks arc_easy_test,arc_challenge_test,mmlu_test \
-    --output_dir ./artifacts/candidates \
+python -m bert_judge.cli.generate \ 
+    --model_path meta-llama/Llama-3.2-1B-Instruct \ 
+    --tasks arc_easy_test,arc_challenge_test,mmlu_test \ 
+    --output_dir ./artifacts/candidates \ 
     --backend vllm
 ```
 
@@ -55,11 +55,11 @@ python -m bert_judge.cli.judge \
 ```
 
 Judging is also possible with:
-* **`LLMJudge`** ([Source Code](src/bert_judge/judges/llm.py))
-* **`RegexJudge`** ([Source Code](src/bert_judge/judges/regex.py))
+* **`LLMJudge`** ([source code](src/bert_judge/judges/llm.py))
+* **`RegexJudge`** ([source code](src/bert_judge/judges/regex.py))
 
 **Output layout:**
-`./artifacts/candidates/<task_name>/<candidate_model_name>/<JudgeType>/<judge_args>/scores.json`
+`./artifacts/candidates/<task_name>/<candidate_model_name>/<judge_type>/<judge_args>/scores.json`
 
 ### 3. Training BERTJudge
 
@@ -75,10 +75,10 @@ MODEL_PATHS=(
 )
 
 for model_path in "${MODEL_PATHS[@]}"; do
-    python -m bert_judge.cli.generate \
-        --model_path "$model_path" \
-        --tasks arc_easy_train,arc_challenge_train,mmlu_train \
-        --output_dir ./artifacts/candidates \
+    python -m bert_judge.cli.generate \ 
+        --model_path "$model_path" \ 
+        --tasks arc_easy_train,arc_challenge_train,mmlu_train \ 
+        --output_dir ./artifacts/candidates \ 
         --backend vllm
 done
 ```
@@ -93,12 +93,13 @@ CANDIDATE_MODELS=(
 )
 
 for candidate_model in "${CANDIDATE_MODELS[@]}"; do
-    python -m bert_judge.cli.judge \
-        --judge_type LLMJudge \
-        --model_path nvidia/Llama-3_3-Nemotron-Super-49B-v1_5 \
-        --tasks arc_easy_train,arc_challenge_train,mmlu_train \
-        --candidates_dir ./artifacts/candidates \
-        --candidate_model_name "$candidate_model"
+    python -m bert_judge.cli.judge \ 
+        --judge_type LLMJudge \ 
+        --model_path nvidia/Llama-3_3-Nemotron-Super-49B-v1_5 \ 
+        --tasks arc_easy_train,arc_challenge_train,mmlu_train \ 
+        --candidates_dir ./artifacts/candidates \ 
+        --candidate_model_name "$candidate_model" \ 
+        --backend vllm
 done
 ```
 
@@ -111,11 +112,9 @@ python -m bert_judge.cli.train \
     --tasks arc_easy_train,arc_challenge_train,mmlu_train \ 
     --candidates_dir ./artifacts/candidates \ 
     --candidate_models Llama-3.2-1B-Instruct,gemma-3-1b-it,Qwen3-0.6B \ 
-    --label_source LLMJudge/Llama_3_3_Nemotron_Super_49B_v1_5_soft \ 
-    --output_dir ./artifacts/models
+    --label_source LLMJudge/Llama_3_3_Nemotron_Super_49B_v1_5 \ 
+    --output_dir ./artifacts/models/BERTJudge-Toy
 ```
-
-**Output layout:** TODO
 
 ### Inspecting CLI Options
 

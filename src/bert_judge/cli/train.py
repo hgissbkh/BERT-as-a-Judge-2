@@ -129,7 +129,7 @@ def build_parser():
 		help="Task names to use for training (space-separated or comma-separated).",
 	)
 	parser.add_argument("candidates_dir", help="Base directory containing candidates and judge scores.")
-	parser.add_argument("output_dir", help="Output directory for trained BERTJudge artifacts.")
+	parser.add_argument("output_dir", help="Output directory for trained BERTJudge model.")
 	parser.add_argument(
 		"--dataset_path",
 		required=True,
