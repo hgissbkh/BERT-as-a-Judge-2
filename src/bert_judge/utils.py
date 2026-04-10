@@ -166,7 +166,7 @@ def load_hf_generator(
     return AutoModelForCausalLM.from_pretrained(
         path,
         trust_remote_code=trust_remote_code,
-        torch_dtype=dtype,
+        dtype=dtype,
         device_map=device_map,
     )
 
@@ -184,7 +184,7 @@ def load_hf_encoder(
         path,
         num_labels=2,
         trust_remote_code=trust_remote_code,
-        torch_dtype=dtype,
+        dtype=dtype,
         device_map=device_map,
     )
 
