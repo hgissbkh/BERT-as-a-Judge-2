@@ -210,6 +210,7 @@ def main() -> None:
 
     # try:
 
+    dataset_path = args.dataset_path
     LOGGER.info("Loading training dataset from %s", dataset_path)
     train_dataset = load_training_dataset(dataset_path)
 
