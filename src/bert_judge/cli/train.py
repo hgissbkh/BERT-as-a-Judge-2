@@ -160,13 +160,12 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--candidates_dir", help="Base directory containing candidates and judge scores."
     )
-    parser.add_argument("--output_dir", help="Output directory for trained BERTJudge model.")
+    parser.add_argument("--output_dir", help="Output directory for the trained BERTJudge model.")
     parser.add_argument(
         "--dataset_path",
         required=True,
         help="Path to training dataset. If it exists, data is loaded from it; otherwise built and saved there.",
     )
-
     parser.add_argument(
         "--candidate_models",
         nargs="+",
@@ -178,11 +177,9 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Judge score selector path under each task/model, e.g. `LLMJudge/'Llama_3_3_Nemotron_Super_49B_v1_5'_soft`.",
     )
-
     parser.add_argument("--trust_remote_code", action="store_true")
     parser.add_argument("--dtype", default="bfloat16")
     parser.add_argument("--device_map", default="auto")
-
     parser.add_argument("--include_question", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument(
         "--training_mix",

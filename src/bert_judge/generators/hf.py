@@ -21,6 +21,8 @@ class HFGenerator(BaseGenerator):
         trust_remote_code: bool = False,
         dtype: str = "bfloat16",
         device_map: str = "auto",
+        enable_thinking: bool = False,
+        think_token: str = "</think>",
         temperature: float = 0,
         top_p: float = 1.0,
         top_k: int = -1,
@@ -30,15 +32,17 @@ class HFGenerator(BaseGenerator):
     ) -> None:
         """Initialize the Hugging Face text generator."""
         super().__init__(
-            model_path,
-            trust_remote_code,
-            dtype,
-            temperature,
-            top_p,
-            top_k,
-            min_p,
-            presence_penalty,
-            max_tokens,
+            model_path=model_path,
+            trust_remote_code=trust_remote_code,
+            dtype=dtype,
+            enable_thinking=enable_thinking,
+            think_token=think_token,
+            temperature=temperature,
+            top_p=top_p,
+            top_k=top_k,
+            min_p=min_p,
+            presence_penalty=presence_penalty,
+            max_tokens=max_tokens,
         )
         self.model = load_hf_generator(
             model_path,
@@ -76,8 +80,11 @@ class HFGenerator(BaseGenerator):
                 for index, prompt_length in enumerate(prompt_lengths):
                     response_ids = outputs[index, int(prompt_length) :]
                     generated_texts.append(
-                        self.tokenizer.decode(response_ids, skip_special_tokens=True)
+                        self.tokenizer.decode(response_ids, skip_special_tokens=True).strip()
                     )
+
+        if self.enable_thinking:
+            return self._extract_answers(generated_texts)
 
         return generated_texts
 

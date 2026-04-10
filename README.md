@@ -59,8 +59,6 @@ python -m bert_judge.cli.generate \
     --backend vllm
 ```
 
-**Output layout:** `./artifacts/candidates/<task_name>/<model_name>/candidates.json`
-
 ### 2. Judging Outputs
 
 Use `judge.py` to evaluate candidate answers.
@@ -68,20 +66,17 @@ Use `judge.py` to evaluate candidate answers.
 **Example:**
 
 ```zsh
-python -m bert_judge.cli.judge \
-    --judge_type BERTJudge \
-    --model_path hgissbkh/BERTJudge-Free-QCR \
-    --tasks arc_easy_test arc_challenge_test mmlu_test \
-    --candidates_dir ./artifacts/candidates \
-    --candidate_model_name Llama-3.2-1B-Instruct
+python -m bert_judge.cli.judge \ 
+    --judge_type BERTJudge \ 
+    --model_path hgissbkh/BERTJudge-Free-QCR \ 
+    --tasks arc_easy_test arc_challenge_test mmlu_test \ 
+    --candidates_dir ./artifacts/candidates \ 
+    --candidate_model Llama-3.2-1B-Instruct
 ```
 
 Judging is also possible with:
 * **`LLMJudge`** ([source code](src/bert_judge/judges/llm.py))
 * **`RegexJudge`** ([source code](src/bert_judge/judges/regex.py))
-
-**Output layout:**
-`./artifacts/candidates/<task_name>/<candidate_model_name>/<judge_type>/<judge_args>/scores.json`
 
 ### 3. Training BERTJudge
 
@@ -120,7 +115,7 @@ for candidate_model in "${CANDIDATE_MODELS[@]}"; do
         --model_path nvidia/Llama-3_3-Nemotron-Super-49B-v1_5 \ 
         --tasks arc_easy_train,arc_challenge_train,mmlu_train \ 
         --candidates_dir ./artifacts/candidates \ 
-        --candidate_model_name "$candidate_model" \ 
+        --candidate_model "$candidate_model" \ 
         --backend vllm
 done
 ```

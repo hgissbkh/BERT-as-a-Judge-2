@@ -5,7 +5,12 @@ from pathlib import Path
 from typing import Any
 
 from ..generators import HFGenerator, vLLMGenerator
-from ..utils import discover_task_functions, get_model_name, parse_tasks
+from ..utils import (
+    build_output_model_name,
+    discover_task_functions,
+    get_model_name,
+    parse_tasks,
+)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -16,6 +21,8 @@ def make_generator(args: argparse.Namespace) -> Any:
         "model_path": args.model_path,
         "trust_remote_code": args.trust_remote_code,
         "dtype": args.dtype,
+        "enable_thinking": args.enable_thinking,
+        "think_token": args.think_token,
         "temperature": args.temperature,
         "top_p": args.top_p,
         "top_k": args.top_k,
@@ -60,25 +67,27 @@ def build_parser() -> argparse.ArgumentParser:
         description="Run generations for one or more tasks and save outputs as JSON.",
     )
 
-    parser.add_argument("--model_path", help="Model path or HF model id.")
+    parser.add_argument("--model_path", required=True, help="Model path or HF model id.")
     parser.add_argument(
         "--tasks",
         nargs="+",
+        required=True,
         help="Task names to run (space-separated and/or comma-separated), e.g. `gsm8k_test mmlu_test_strict`.",
     )
-    parser.add_argument("--output_dir", help="Base output directory.")
-
+    parser.add_argument("--output_dir", required=True, help="Base output directory.")
     parser.add_argument("--backend", choices=["hf", "vllm"], default="vllm")
     parser.add_argument("--trust_remote_code", action="store_true")
     parser.add_argument("--dtype", default="bfloat16")
-
+    parser.add_argument("--enable_thinking", action="store_true")
+    parser.add_argument(
+        "--think_token", type=str, default="</think>", help="Closing thinking token."
+    )
     parser.add_argument("--temperature", type=float, default=0.0)
     parser.add_argument("--top_p", type=float, default=1.0)
     parser.add_argument("--top_k", type=int, default=-1)
     parser.add_argument("--min_p", type=float, default=0.0)
     parser.add_argument("--presence_penalty", type=float, default=0.0)
     parser.add_argument("--max_tokens", type=int, default=2048)
-
     parser.add_argument("--batch_size", type=int, default=1, help="Only used by HF backend.")
     parser.add_argument("--device_map", default="auto", help="Only used by HF backend.")
     parser.add_argument(
@@ -112,6 +121,16 @@ def main() -> None:
 
     generator = make_generator(args)
     model_name = get_model_name(args.model_path)
+    output_model_name = build_output_model_name(
+        model_name=model_name,
+        temperature=args.temperature,
+        top_p=args.top_p,
+        top_k=args.top_k,
+        min_p=args.min_p,
+        presence_penalty=args.presence_penalty,
+        max_tokens=args.max_tokens,
+        enable_thinking=args.enable_thinking,
+    )
 
     for task_name in task_names:
         task_fn = task_registry[task_name]
@@ -123,7 +142,7 @@ def main() -> None:
         else:
             candidates = generator.generate(questions)
 
-        output_path = save_task_outputs(candidates, args.output_dir, task_name, model_name)
+        output_path = save_task_outputs(candidates, args.output_dir, task_name, output_model_name)
         LOGGER.info("Saved %d candidates to %s", len(candidates), output_path)
 
 

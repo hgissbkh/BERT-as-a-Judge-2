@@ -9,6 +9,8 @@ class BaseGenerator:
         model_path: str,
         trust_remote_code: bool = False,
         dtype: str = "bfloat16",
+        enable_thinking: bool = False,
+        think_token: str = "</think>",
         temperature: float = 0,
         top_p: float = 1.0,
         top_k: int = -1,
@@ -20,6 +22,8 @@ class BaseGenerator:
         self.model_path = model_path
         self.trust_remote_code = trust_remote_code
         self.dtype = dtype
+        self.enable_thinking = enable_thinking
+        self.think_token = think_token
         self.temperature = temperature
         self.top_p = top_p
         self.top_k = top_k
@@ -64,7 +68,28 @@ class BaseGenerator:
                 _messages,
                 tokenize=False,
                 add_generation_prompt=True,
+                enable_thinking=self.enable_thinking,
             )
             processed_prompts.append(processed_prompt)
 
         return processed_prompts
+
+    def _extract_answers(
+        self,
+        outputs: list[str],
+    ) -> list[str]:
+        """Extract final answers after the configured thinking token."""
+        chat_template = getattr(self.tokenizer, "chat_template", None)
+        if not isinstance(chat_template, str) or self.think_token not in chat_template:
+            raise ValueError(
+                f"Configured think token `{self.think_token}` is not present in tokenizer chat template."
+            )
+
+        answers: list[str] = []
+        for output in outputs:
+            if self.think_token in output:
+                answers.append(output.split(self.think_token, 1)[-1].strip())
+            else:
+                answers.append(output.strip())
+
+        return answers

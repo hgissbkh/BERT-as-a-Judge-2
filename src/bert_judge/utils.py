@@ -257,3 +257,48 @@ def load_json_list(path: Path) -> list[Any]:
 def get_model_name(model_path: str | Path) -> str:
     """Return a normalized model directory name from a model path."""
     return str(model_path).rstrip("/").split("/")[-1].replace("-", "_")
+
+
+def format_number(value: float | int) -> str:
+    """Format numeric values for stable path-friendly suffixes."""
+    if isinstance(value, int):
+        return str(value)
+    return f"{value:g}".replace(".", "_")
+
+
+def build_output_model_name(
+    model_name: str,
+    temperature: float = None,
+    top_p: float = None,
+    top_k: int = None,
+    min_p: float = None,
+    presence_penalty: float = None,
+    max_tokens: int = None,
+    enable_thinking: bool = None,
+    instruction_type: str = None,
+    metric: str = None,
+) -> str:
+    """Build model-name suffix from generation configuration.
+
+    Default deterministic setting keeps the original model name.
+    """
+    output_model_name = model_name
+
+    if enable_thinking:
+        output_model_name += "_think"
+
+    if temperature and temperature > 0:
+        output_model_name += f"_t{format_number(temperature)}"
+        output_model_name += f"_p{format_number(top_p)}"
+        output_model_name += f"_k{format_number(top_k)}"
+        output_model_name += f"_mp{format_number(min_p)}"
+        output_model_name += f"_pp{format_number(presence_penalty)}"
+        output_model_name += f"_mt{format_number(max_tokens)}"
+
+    if instruction_type and instruction_type != "soft":
+        output_model_name += f"_{instruction_type}"
+
+    if metric:
+        output_model_name += f"_{metric}"
+
+    return output_model_name
