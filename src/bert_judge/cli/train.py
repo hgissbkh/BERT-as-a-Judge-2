@@ -201,23 +201,25 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> None:
     """Train BERTJudge either from built dataset or generated artifacts."""
     logging.basicConfig(
-        level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s"
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
     )
+
     parser = build_parser()
     args = parser.parse_args()
 
     # try:
-        
-	LOGGER.info("Loading training dataset from %s", dataset_path)
+
+    LOGGER.info("Loading training dataset from %s", dataset_path)
     train_dataset = load_training_dataset(dataset_path)
-    
-	# except FileNotFoundError as exc:
+
+    # except FileNotFoundError as exc:
     #     LOGGER.info("Building training dataset")
     #     dataset_path = Path(args.dataset_path)
-	# 	task_names = parse_tasks(args.tasks)
+    #     task_names = parse_tasks(args.tasks)
     #     if not task_names:
     #         raise ValueError("No task names provided.") from exc
-
+    #
     #     task_registry = discover_task_functions()
     #     unknown_tasks = sorted(set(task_names) - set(task_registry))
     #     if unknown_tasks:
@@ -226,18 +228,18 @@ def main() -> None:
     #         raise ValueError(
     #             f"Unknown task(s): {unknown}. Available task names: {available}"
     #         ) from exc
-
+    #
     #     if args.label_source is None:
     #         raise ValueError(
     #             "`--label_source` is required when building dataset from candidates/scores."
     #         ) from exc
-
+    #
     #     candidate_models = parse_tasks(args.candidate_models or [])
     #     if not candidate_models:
     #         raise ValueError(
     #             "`--candidate_models` is required when building dataset from candidates/scores."
     #         ) from exc
-
+    #
     #     train_dataset = build_training_dataset(
     #         task_names=task_names,
     #         task_registry=task_registry,
