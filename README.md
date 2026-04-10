@@ -125,6 +125,7 @@ done
 ```zsh
 python -m bert_judge.cli.train \ 
     --model_path EuroBERT/EuroBERT-210m \ 
+    --trust_remote_code \ 
     --dataset_path ./artifacts/BERTJudge-Dataset \ 
     --tasks arc_easy_train,arc_challenge_train,mmlu_train \ 
     --candidates_dir ./artifacts/candidates \ 
