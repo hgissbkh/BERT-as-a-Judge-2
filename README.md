@@ -69,6 +69,7 @@ Use `judge.py` to evaluate candidate answers.
 python -m bert_judge.cli.judge \ 
     --judge_type BERTJudge \ 
     --model_path hgissbkh/BERTJudge-Free-QCR \ 
+    --trust_remote_code \ 
     --tasks arc_easy_test arc_challenge_test mmlu_test \ 
     --candidates_dir ./artifacts/candidates \ 
     --candidate_model Llama-3.2-1B-Instruct
