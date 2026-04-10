@@ -203,7 +203,7 @@ def load_hf_tokenizer(
 
 def resolve_dataset_path(path: str) -> str:
     """Resolve dataset path from LOCAL_DATASETS_DIR when configured."""
-    if "LOCAL_DATASETS_DIR" in os.environ:
+    if not os.path.exists(path) and "LOCAL_DATASETS_DIR" in os.environ:
         path = os.path.join(
             os.environ["LOCAL_DATASETS_DIR"],
             path.split("/")[-1],
@@ -213,7 +213,7 @@ def resolve_dataset_path(path: str) -> str:
 
 def resolve_model_path(path: str) -> str:
     """Resolve model path from LOCAL_MODELS_DIR when configured."""
-    if "LOCAL_MODELS_DIR" in os.environ:
+    if not os.path.exists(path) and "LOCAL_MODELS_DIR" in os.environ:
         path = os.path.join(
             os.environ["LOCAL_MODELS_DIR"],
             path.split("/")[-1],
