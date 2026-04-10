@@ -58,8 +58,10 @@ def build_task_training_dataset(
     sanitized_model_name = get_model_name(candidate_model_name)
     task_dir = Path(candidates_dir) / task_name / sanitized_model_name
     candidates = load_json_list(task_dir / "candidates.json")
-    scores = load_json_list(task_dir / label_source.strip("/") / "scores.json")
-
+	label_source_split = label_source.strip("/").split("/")
+	scores = load_json_list(
+        task_dir / label_source_split[0] / get_model_name(label_source_split[1]) / "scores.json"
+    )
     questions = task_dataset["question"]
     references = task_dataset["reference"]
 
