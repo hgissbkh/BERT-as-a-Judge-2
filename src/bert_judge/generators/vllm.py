@@ -46,12 +46,12 @@ class vLLMGenerator(BaseGenerator):
             tensor_parallel_size,
         )
         self.sampling_params = SamplingParams(
-            temperature,
-            top_p,
-            top_k,
-            min_p,
-            presence_penalty,
-            max_tokens,
+            temperature=temperature,
+            top_p=top_p,
+            top_k=top_k,
+            min_p=min_p,
+            presence_penalty=presence_penalty,
+            max_tokens=max_tokens,
         )
 
     def generate(
