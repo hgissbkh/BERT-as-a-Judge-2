@@ -82,7 +82,7 @@ class BERTJudge:
         ###
         print(dataset[0])
         ###
-        
+
         dataset = self._tokenize_prompts(dataset)
         trainer = self._build_trainer(
             dataset,
