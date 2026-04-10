@@ -30,7 +30,6 @@ def make_judge(args: argparse.Namespace) -> Any:
             model_path=args.model_path,
             trust_remote_code=args.trust_remote_code,
             dtype=args.dtype,
-            device_map=args.device_map,
         )
 
     if args.judge_type == "LLMJudge":
@@ -49,7 +48,6 @@ def make_judge(args: argparse.Namespace) -> Any:
             presence_penalty=args.presence_penalty,
             max_tokens=args.max_tokens,
             tensor_parallel_size=args.tensor_parallel_size,
-            device_map=args.device_map,
         )
 
     if args.judge_type == "RegexJudge":
@@ -171,7 +169,6 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--trust_remote_code", action="store_true")
     parser.add_argument("--dtype", default="bfloat16")
-    parser.add_argument("--device_map", default="auto")
     parser.add_argument("--batch_size", type=int, default=1, help="Used by BERTJudge.")
     parser.add_argument(
         "--backend", choices=["hf", "vllm"], default="vllm", help="Used by LLMJudge."

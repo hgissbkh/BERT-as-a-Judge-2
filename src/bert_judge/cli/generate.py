@@ -32,10 +32,7 @@ def make_generator(args: argparse.Namespace) -> Any:
     }
 
     if args.backend == "hf":
-        return HFGenerator(
-            device_map=args.device_map,
-            **common_kwargs,
-        )
+        return HFGenerator(**common_kwargs)
 
     if args.backend == "vllm":
         if vLLMGenerator is None:
@@ -89,7 +86,6 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--presence_penalty", type=float, default=0.0)
     parser.add_argument("--max_tokens", type=int, default=2048)
     parser.add_argument("--batch_size", type=int, default=1, help="Only used by HF backend.")
-    parser.add_argument("--device_map", default="auto", help="Only used by HF backend.")
     parser.add_argument(
         "--tensor_parallel_size",
         type=int,
