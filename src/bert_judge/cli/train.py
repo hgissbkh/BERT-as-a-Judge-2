@@ -206,45 +206,47 @@ def main() -> None:
     parser = build_parser()
     args = parser.parse_args()
 
-    try:
-        LOGGER.info("Loading training dataset from %s", dataset_path)
-        train_dataset = load_training_dataset(dataset_path)
-    except FileNotFoundError as exc:
-        LOGGER.info("Building training dataset")
-        dataset_path = Path(args.dataset_path)
-		task_names = parse_tasks(args.tasks)
-        if not task_names:
-            raise ValueError("No task names provided.") from exc
+    # try:
+        
+	LOGGER.info("Loading training dataset from %s", dataset_path)
+    train_dataset = load_training_dataset(dataset_path)
+    
+	# except FileNotFoundError as exc:
+    #     LOGGER.info("Building training dataset")
+    #     dataset_path = Path(args.dataset_path)
+	# 	task_names = parse_tasks(args.tasks)
+    #     if not task_names:
+    #         raise ValueError("No task names provided.") from exc
 
-        task_registry = discover_task_functions()
-        unknown_tasks = sorted(set(task_names) - set(task_registry))
-        if unknown_tasks:
-            available = ", ".join(sorted(task_registry))
-            unknown = ", ".join(unknown_tasks)
-            raise ValueError(
-                f"Unknown task(s): {unknown}. Available task names: {available}"
-            ) from exc
+    #     task_registry = discover_task_functions()
+    #     unknown_tasks = sorted(set(task_names) - set(task_registry))
+    #     if unknown_tasks:
+    #         available = ", ".join(sorted(task_registry))
+    #         unknown = ", ".join(unknown_tasks)
+    #         raise ValueError(
+    #             f"Unknown task(s): {unknown}. Available task names: {available}"
+    #         ) from exc
 
-        if args.label_source is None:
-            raise ValueError(
-                "`--label_source` is required when building dataset from candidates/scores."
-            ) from exc
+    #     if args.label_source is None:
+    #         raise ValueError(
+    #             "`--label_source` is required when building dataset from candidates/scores."
+    #         ) from exc
 
-        candidate_models = parse_tasks(args.candidate_models or [])
-        if not candidate_models:
-            raise ValueError(
-                "`--candidate_models` is required when building dataset from candidates/scores."
-            ) from exc
+    #     candidate_models = parse_tasks(args.candidate_models or [])
+    #     if not candidate_models:
+    #         raise ValueError(
+    #             "`--candidate_models` is required when building dataset from candidates/scores."
+    #         ) from exc
 
-        train_dataset = build_training_dataset(
-            task_names=task_names,
-            task_registry=task_registry,
-            candidates_dir=args.candidates_dir,
-            candidate_models=candidate_models,
-            label_source=args.label_source,
-        )
-        save_training_dataset(train_dataset, dataset_path)
-        LOGGER.info("Saved training dataset to %s", dataset_path)
+    #     train_dataset = build_training_dataset(
+    #         task_names=task_names,
+    #         task_registry=task_registry,
+    #         candidates_dir=args.candidates_dir,
+    #         candidate_models=candidate_models,
+    #         label_source=args.label_source,
+    #     )
+    #     save_training_dataset(train_dataset, dataset_path)
+    #     LOGGER.info("Saved training dataset to %s", dataset_path)
 
     judge = BERTJudge(
         model_path=args.model_path,
