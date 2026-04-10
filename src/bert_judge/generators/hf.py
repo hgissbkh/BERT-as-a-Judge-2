@@ -93,7 +93,6 @@ class HFGenerator(BaseGenerator):
                 prompt,
                 truncation=True,
                 max_length=self.max_prompt_tokens,
-                truncation_side="left",
             )
             tokenized_prompts.append(tokenized_prompt)
 

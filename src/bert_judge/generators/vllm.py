@@ -81,7 +81,6 @@ class vLLMGenerator(BaseGenerator):
                 prompt,
                 truncation=True,
                 max_length=max_prompt_tokens,
-                truncation_side="left",
             )["input_ids"]
             truncated_prompt = self.tokenizer.decode(tokens)
             truncated_prompts.append(truncated_prompt)

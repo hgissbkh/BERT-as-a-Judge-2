@@ -30,6 +30,7 @@ class BaseGenerator:
             model_path,
             trust_remote_code=trust_remote_code,
         )
+        self.tokenizer.truncation_side = "left"
         self._configure_tokenizer_padding()
 
     def _configure_tokenizer_padding(self) -> None:
