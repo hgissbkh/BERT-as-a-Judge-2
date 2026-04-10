@@ -127,7 +127,7 @@ class BERTJudge:
 
 		scores: list[list[float]] = []
 		with torch.no_grad():
-			for batch in tqdm(dataloader):
+			for batch in tqdm(dataloader, "Computing scores"):
 				batch = {k: v.to(self.model.device) for k, v in batch.items()}
 				output = self.model(**batch)
 				scores += output.logits.cpu().tolist()
