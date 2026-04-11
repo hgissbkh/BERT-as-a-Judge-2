@@ -204,25 +204,43 @@ python -m bert_judge.cli.generate \
 
 ## Python Usage
 
-You can also use the package directly within your Python scripts:
+You can use the package directly in Python scripts for quick scoring.
 
 ```python
 from bert_judge.judges import BERTJudge
 
-# Initialize the judge
+# 1) Initialize the judge
 judge = BERTJudge(
     model_path="hgissbkh/BERTJudge-Free-QCR",
     trust_remote_code=True,
     dtype="bfloat16",
 )
 
-# Predict scores
+# 2) Define one question, one reference, and several candidate answers
+question = "What is the capital of France?"
+reference = "Paris"
+candidates = [
+    "Paris.",
+    "The capital of France is Paris.",
+    "I'm hesitating between Paris and London. I would say Paris.",
+    "London.",
+    "The capital of France is London.",
+    "I'm hesitating between Paris and London. I would say London.",
+]
+
+# 3) Predict scores (one score per candidate)
 scores = judge.predict(
-    questions=["What is the capital of France?"],
-    candidates=["Paris"],
-    references=["Paris"],
+    questions=[question] * len(candidates),
+    references=[reference] * len(candidates),
+    candidates=candidates,
     batch_size=1,
 )
 
 print(scores)
+```
+
+Example output:
+
+```text
+[0.9946, 0.9988, 0.9888, 0.0748, 0.0300, 0.0199]
 ```
