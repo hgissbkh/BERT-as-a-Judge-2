@@ -157,7 +157,12 @@ def build_parser() -> argparse.ArgumentParser:
 	parser.add_argument(
 		"--candidates_dir",
 		required=True,
-		help="Base directory that contains candidates and where scores will be saved.",
+		help="Base directory that contains candidates.",
+	)
+	parser.add_argument(
+		"--output_dir",
+		default="./artifacts/scores",
+		help="Output directory where computed scores will be saved.",
 	)
 	parser.add_argument(
 		"--candidate_model",
@@ -218,6 +223,7 @@ def main() -> None:
 
 	judge = make_judge(args)
 	base_dir = Path(args.candidates_dir)
+	output_base_dir = Path(args.output_dir)
 	candidate_model_name = get_model_name(args.candidate_model)
 
 	for task_name in task_names:
@@ -244,7 +250,9 @@ def main() -> None:
 			args=args,
 		)
 
-		scores_output_dir = task_dir / args.judge_type / judge_args_fragment
+		scores_output_dir = (
+			output_base_dir / task_name / candidate_model_name / args.judge_type / judge_args_fragment
+		)
 		scores_path = save_scores(scores, scores_output_dir)
 		LOGGER.info("Saved %d scores to %s", len(scores), scores_path)
 

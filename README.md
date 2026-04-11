@@ -71,6 +71,7 @@ python -m bert_judge.cli.judge \
     --trust_remote_code \ 
     --tasks arc_easy_test,arc_challenge_test,mmlu_test \ 
     --candidates_dir ./artifacts/candidates \ 
+    --output_dir ./artifacts/scores \ 
     --candidate_model Llama-3.2-1B-Instruct
 ```
 
@@ -115,6 +116,7 @@ for candidate_model in "${CANDIDATE_MODELS[@]}"; do
         --model_path nvidia/Llama-3_3-Nemotron-Super-49B-v1_5 \ 
         --tasks arc_easy_train,arc_challenge_train,mmlu_train \ 
         --candidates_dir ./artifacts/candidates \ 
+        --output_dir ./artifacts/scores \ 
         --candidate_model "$candidate_model" \ 
         --backend vllm
 done
