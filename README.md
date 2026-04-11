@@ -88,7 +88,7 @@ Use `train.py` if you want to train a custom `BERTJudge` model. The common workf
 MODEL_PATHS=(
     "meta-llama/Llama-3.2-1B-Instruct"
     "google/gemma-3-1b-it"
-    "Qwen/Qwen3-Embedding-0.6B"
+    "Qwen/Qwen3-0.6B"
 )
 
 for model_path in "${MODEL_PATHS[@]}"; do
@@ -106,7 +106,7 @@ done
 CANDIDATE_MODELS=(
     "Llama-3.2-1B-Instruct"
     "gemma-3-1b-it"
-    "Qwen3-Embedding-0.6B"
+    "Qwen3-0.6B"
 )
 
 for candidate_model in "${CANDIDATE_MODELS[@]}"; do
@@ -130,9 +130,38 @@ python -m bert_judge.cli.train \
     --tasks arc_easy_train,arc_challenge_train,mmlu_train \ 
     --candidates_dir ./artifacts/candidates \ 
     --candidate_models Llama-3.2-1B-Instruct,gemma-3-1b-it,Qwen3-0.6B \ 
-    --label_source LLMJudge/Llama_3_3_Nemotron_Super_49B_v1_5 \ 
+    --label_source LLMJudge/Llama-3_3-Nemotron-Super-49B-v1_5 \ 
     --output_dir ./artifacts/models/BERTJudge-Toy
 ```
+
+**Optional: Control sampling with `--training_mix`**
+
+You can provide a JSON file to control how many examples are sampled per task and per candidate model during training.
+
+Example file (`./artifacts/training_mix.json`):
+
+```json
+{
+    "arc_easy_train": {
+        "Llama-3.2-1B-Instruct": 500,
+        "gemma-3-1b-it": 500
+    },
+    "mmlu_train": {
+        "Llama-3.2-1B-Instruct": 250,
+        "Qwen3-0.6B": 250
+    }
+}
+```
+
+Then pass it to `train.py`:
+
+```zsh
+python -m bert_judge.cli.train \ 
+    ...
+    --training_mix ./artifacts/training_mix.json 
+```
+
+`training_mix` keys should match task names and candidate model split names in your training dataset.
 
 ### Inspecting CLI Options
 
@@ -187,9 +216,9 @@ Task functions are auto-discovered from `bert_judge.tasks`, so no registry file 
 Once your function exists, call it by its function name:
 
 ```zsh
-python -m bert_judge.cli.generate \
-    --model_path meta-llama/Llama-3.2-1B-Instruct \
-    --tasks my_custom_task \
+python -m bert_judge.cli.generate \ 
+    --model_path meta-llama/Llama-3.2-1B-Instruct \ 
+    --tasks my_custom_task \ 
     --output_dir ./artifacts/candidates
 ```
 

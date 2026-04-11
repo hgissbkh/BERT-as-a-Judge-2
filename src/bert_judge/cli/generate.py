@@ -116,9 +116,8 @@ def main() -> None:
 		raise ValueError(f"Unknown task(s): {unknown}. Available task names: {available}")
 
 	generator = make_generator(args)
-	model_name = get_model_name(args.model_path)
 	output_model_name = build_output_model_name(
-		model_name=model_name,
+		model_name=get_model_name(args.model_path),
 		temperature=args.temperature,
 		top_p=args.top_p,
 		top_k=args.top_k,

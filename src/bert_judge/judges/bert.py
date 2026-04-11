@@ -14,6 +14,7 @@ from transformers import (
 )
 
 from ..utils import (
+	get_model_name,
 	load_hf_encoder,
 	load_hf_tokenizer,
 )
@@ -154,9 +155,9 @@ class BERTJudge:
 	) -> Dataset:
 		"""Sample and concatenate subsets according to `training_mix`."""
 		processed_dataset: list[Dataset] = []
-		for name in training_mix:
-			for split, num_samples in training_mix[name].items():
-				subset = dataset[name][split].shuffle(seed)
+		for task_name in training_mix:
+			for model_name, num_samples in training_mix[task_name].items():
+				subset = dataset[task_name][get_model_name(model_name)].shuffle(seed)
 				processed_dataset.append(subset.select(range(min(len(subset), num_samples))))
 
 		return concatenate_datasets(processed_dataset)
