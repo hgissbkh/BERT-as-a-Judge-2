@@ -234,7 +234,7 @@ def main() -> None:
         candidates_path = task_dir / "candidates.json"
         candidates = load_candidates(candidates_path)
         judge_args_fragment = build_judge_args_fragment(args)
-		LOGGER.info("Scoring task '%s' with judge '%s (%s)'", task_name, args.judge_type, judge_args_fragment)
+        LOGGER.info("Scoring task '%s' with judge '%s (%s)'", task_name, args.judge_type, judge_args_fragment)
 
         scores = score_task(
             judge=judge,
