@@ -9,6 +9,7 @@ from typing import Any
 
 import torch
 from datasets import (
+	Dataset,
 	DatasetDict,
 	concatenate_datasets,
 	load_from_disk,
@@ -17,8 +18,6 @@ from datasets import (
 	get_dataset_config_names as _get_dataset_config_names,
 )
 from datasets import (
-	Dataset,
-	DatasetDict,
 	load_dataset as _load_dataset,
 )
 from transformers import (
@@ -72,7 +71,7 @@ def load_dataset_dict(
 					dataset_dict[split] = load_from_disk(lfd_path)
 			dataset[name] = dataset_dict
 
-	except Exception as exc:
+	except Exception:
 		for name in names:
 			dataset_dict = DatasetDict()
 			for split in splits:
@@ -111,9 +110,9 @@ def load_dataset(
 	"""
 	dataset = load_dataset_dict(path, name, split)
 	dataset = concatenate_datasets([
-		dataset[name][split] for name in dataset for split in dataset[name]	   
+		dataset[name][split] for name in dataset for split in dataset[name]
 	])
-	
+
 	if filter_fn is not None:
 		dataset = dataset.filter(
 			filter_fn,

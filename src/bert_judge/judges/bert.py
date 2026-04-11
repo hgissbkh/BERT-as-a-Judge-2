@@ -1,11 +1,10 @@
-import os
 from typing import Any
 
+import torch
 from datasets import (
 	Dataset,
 	concatenate_datasets,
 )
-import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 from transformers import (
@@ -123,7 +122,7 @@ class BERTJudge:
 		dataset = self._make_prompts(dataset, include_question)
 		dataset = self._tokenize_prompts(dataset)
 		dataloader = self._build_dataloader(dataset, batch_size)
-		
+
 		self.model.eval()
 		if torch.cuda.is_available():
 			self.model = self.model.to("cuda")

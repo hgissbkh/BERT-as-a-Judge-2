@@ -6,8 +6,8 @@ from ..utils import load_dataset
 def mmlu_test():
 	def process_fn(ex):
 		question = (
-			"Answer the following multiple-choice question.\n\n" + 
-			"Question: " + ex["question"] + "\n\n" + 
+			"Answer the following multiple-choice question.\n\n" +
+			"Question: " + ex["question"] + "\n\n" +
 			"Choices:\n" + "\n".join([f"{letter}) {choice}" for letter, choice in zip(ALPHABET, ex["choices"])])
 		)
 		reference = ALPHABET[ex["answer"]] + ") " + ex["choices"][ex["answer"]]

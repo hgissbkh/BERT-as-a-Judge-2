@@ -5,7 +5,7 @@ src = ["src"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B"]
-ignore = ["E501", "W191"]
+ignore = ["E501", "W191", "B905"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["bert_judge"]
