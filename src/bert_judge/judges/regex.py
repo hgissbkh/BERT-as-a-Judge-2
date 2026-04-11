@@ -35,23 +35,8 @@ class RegexJudge:
 	) -> list[float | int]:
 		"""Score candidate answers against references."""
 		references = self._process_references(references)
-		
-		###
-		print(references[0])
-		###
-		
 		extractions = self._extract_answers(candidates)
-		
-		###
-		print(extractions[0])
-		###
-		
 		scores = self._compute_scores(extractions, references)
-
-		###
-		print(scores[0])
-		### 
-		
 		return scores
 
 	def _extract_answers(self, candidates: list[str]) -> list[str | None]:
