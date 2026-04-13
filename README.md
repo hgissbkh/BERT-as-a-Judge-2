@@ -7,7 +7,7 @@
 - [Python Usage](#python-usage)
 - [CLI Tools](#cli-tools)
 - [Adding a New Task](#adding-a-new-task)
-- [Training a BERTJudge Model](#training-a-bertjudge-model)
+- [Training BERTJudge](#training-bertjudge)
 - [Citation](#citation)
 
 ---
@@ -224,7 +224,7 @@ python -m bert_judge.cli.generate \
 
 ---
 
-## Training a BERTJudge Model
+## Training BERTJudge
 
 If you want to train a custom `BERTJudge` model using your own data, labels, backbone, or training recipe, you can use [`cli.train`](src/bert_judge/cli/train.py). The common workflow involves three steps:
 
