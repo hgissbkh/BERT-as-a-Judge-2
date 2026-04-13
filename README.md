@@ -124,7 +124,7 @@ For scalable, end-to-end evaluation, you can use the CLI tools provided in the p
 
 ### Step 1: Output Generation
 
-Evaluating models first requires generating model outputs on predefined tasks, which are located in the [`tasks/`](src/bert_judge/tasks/) folder. Use [`cli.generate`](src/bert_judge/cli/generate.py) to run a model on one or more tasks and save the generated candidates.
+Evaluating models first requires generating model outputs on predefined tasks, which are implemented in the [`tasks`](src/bert_judge/tasks/) module. Use [`cli.generate`](src/bert_judge/cli/generate.py) to run a model on one or more tasks and save the generated candidates.
 
 **Example:**
 
@@ -138,7 +138,7 @@ python -m bert_judge.cli.generate \
 
 ### Step 2: Judging Outputs
 
-Once the candidate answers are generated, they need to be evaluated using a judge module. Use [`cli/judge.py`](src/bert_judge/cli/judge.py) to run the evaluation.
+Once the candidate answers are generated, they need to be evaluated using a judge module. Use [`cli.judge`](src/bert_judge/cli/judge.py) to run the evaluation.
 
 **Example:**
 
@@ -170,11 +170,11 @@ python -m bert_judge.cli.generate --help
 
 ## Adding a New Task
 
-To add a new benchmark or task, create a new Python file in [`tasks/`](src/bert_judge/tasks/).
+To add a new benchmark or task, create a new Python file in [`tasks`](src/bert_judge/tasks/).
 
 ### Step 1: Create a task module
 
-**Example:** `src/bert_judge/tasks/my_custom_task.py`
+**Example:** `tasks/my_custom_task.py`
 
 ```python
 from ..utils import load_dataset
@@ -202,7 +202,7 @@ These two fields are required by the generation, judging, and training pipelines
 
 ### Step 2: Use the task from CLI
 
-Task functions are auto-discovered from `bert_judge.tasks`, so no registry file needs manual updates. Once your function exists, call it by its function name:
+Task functions are auto-discovered from the [`tasks`](src/bert_judge/tasks/) module, so no registry file needs manual updates. Once your function exists, call it by its function name:
 
 **Example:**
 
@@ -216,13 +216,13 @@ python -m bert_judge.cli.generate \
 ### Notes
 
 - For training and evaluation splits, you can create separate functions (e.g., `my_custom_task_train` and `my_custom_task_test`).
-- Keep function names unique across files in [`tasks/`](src/bert_judge/tasks/).
+- Keep function names unique across files in [`tasks`](src/bert_judge/tasks/).
 
 ---
 
 ## Training a BERTJudge Model
 
-If you want to train a custom `BERTJudge` model using your own data, labels, backbone, or training recipe, you can use [`train.py`](src/bert_judge/cli/train.py). The common workflow involves three steps:
+If you want to train a custom `BERTJudge` model using your own data, labels, backbone, or training recipe, you can use [`cli.train`](src/bert_judge/cli/train.py). The common workflow involves three steps:
 
 ### Step 1: Generate outputs with multiple models on multiple tasks
 
@@ -302,7 +302,7 @@ You can provide a JSON file to control how many examples are sampled per task an
 }
 ```
 
-Then pass it to [`train.py`](src/bert_judge/cli/train.py).
+Then pass it to [`cli.train`](src/bert_judge/cli/train.py).
 
 ```zsh
 python -m bert_judge.cli.train \ 
