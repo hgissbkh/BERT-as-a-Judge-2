@@ -129,6 +129,10 @@ Evaluating models first requires generating model outputs on predefined tasks, w
 **Example:**
 
 ```zsh
+# Optional: set local model and dataset directories
+export LOCAL_MODELS_DIR="local/path/to/models"
+export LOCAL_DATASETS_DIR="local/path/to/datasets"
+
 python -m bert_judge.cli.generate \ 
     --model_path meta-llama/Llama-3.2-1B-Instruct \ 
     --tasks arc_easy_test,arc_challenge_test,mmlu_test \ 
@@ -143,10 +147,6 @@ Once the candidate answers are generated, they need to be evaluated using a judg
 **Example:**
 
 ```zsh
-# Optional: set local model and dataset directories
-export LOCAL_MODELS_DIR="local/path/to/models"
-export LOCAL_DATASETS_DIR="local/path/to/datasets"
-
 python -m bert_judge.cli.judge \ 
     --judge_type BERTJudge \ 
     --model_path hgissbkh/BERTJudge-Free-QCR \ 
