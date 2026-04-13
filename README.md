@@ -323,13 +323,13 @@ python -m bert_judge.cli.train \
 If you find this resource useful for your research, please consider citing our paper:
 
 ```bibtex
-@misc{gisserotboukhlef2026bertasajudgerobustalternativelexical,
-      title={BERT-as-a-Judge: A Robust Alternative to Lexical Methods for Efficient Reference-Based LLM Evaluation}, 
-      author={Hippolyte Gisserot-Boukhlef and Nicolas Boizard and Emmanuel Malherbe and Céline Hudelot and Pierre Colombo},
-      year={2026},
-      eprint={2604.09497},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL},
-      url={[https://arxiv.org/abs/2604.09497](https://arxiv.org/abs/2604.09497)}, 
+@article{gisserotboukhlef2026bertasajudgerobustalternativelexical,
+    title={BERT-as-a-Judge: A Robust Alternative to Lexical Methods for Efficient Reference-Based LLM Evaluation},
+    author={Gisserot-Boukhlef, Hippolyte and Boizard, Nicolas and Malherbe, Emmanuel and Hudelot, C{\'e}line and Colombo, Pierre},
+    year={2026},
+    eprint={2604.09497},
+    archivePrefix={arXiv},
+    primaryClass={cs.CL},
+    url={https://arxiv.org/abs/2604.09497}
 }
 ```
