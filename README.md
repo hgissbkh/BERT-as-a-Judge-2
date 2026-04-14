@@ -17,7 +17,7 @@
 To install the package from the source, clone the repository and install it in editable mode:
 
 ```bash
-git clone [https://github.com/artefactory/BERT-as-a-Judge.git](https://github.com/artefactory/BERT-as-a-Judge.git)
+git clone https://github.com/artefactory/BERT-as-a-Judge.git
 cd BERT-as-a-Judge
 pip install -e .
 ```
